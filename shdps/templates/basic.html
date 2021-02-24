@@ -1,0 +1,532 @@
+﻿{% comment %} {% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
+
+
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+  
+    <script src="{% static 'jquery.js' %}"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'homepage/bootstrap/css/bootstrap.min.css' %}">
+    
+   <title>SHDPS</title>
+   
+   <link rel="stylesheet" href="{% static 'homepage/bootstrap/css/bootstrap.min.css' %}">
+
+    
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'homepage/css.css' %}">
+
+
+
+
+
+
+   <title>
+   {% block title %}
+       disease prediction
+   {% endblock %}
+   </title>
+
+
+
+{% block css %}
+
+
+{% endblock %}
+
+
+
+    <style>
+
+  .img {
+    position: relative;
+    float: left;
+    width:  200px;
+    height: 200px;
+    background-position: 100% 100%;
+    background-repeat:   no-repeat;
+    background-size:     cover;
+}
+    </style>
+
+
+    {% block head %}
+
+
+
+    {% endblock %}
+
+
+
+  
+  </head>
+
+
+  <body>
+
+
+
+      <div class="container-fluid">
+
+
+      
+          <nav class="navbar navbar-expand-lg navbar-dark  mt-1 ml-1" style="background-color:#4E2FB3;">
+              <a class="navbar-brand" href="{% url 'home' %}"><img alt="logo" src="{% static 'homepage/logo.jpg' %}" class="logo" ></a>
+
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+          <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav ml-auto">
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'home' %}">Home</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'home' %}">About</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'home' %}">Contact</a>
+                      </li>
+                      
+      
+      
+                    {% if user.is_authenticated %}
+                      
+                      {% if user.patient %}
+      
+                      <li class="nav-item ml-2">
+                      <li class="nav-link" href="{% url 'patient_ui' %}" style="color: rgb(91, 252, 50);">Hello, {{user.patient.name}}</li>
+                      </li>
+                      <li class="nav-item ml-2">
+                          <a class="nav-link" href="{% url 'patient_ui' %}">Profile</a>
+                          </li>
+      
+                      {% endif %}
+                      
+                      {% if user.doctor  %}
+      
+                      <li class="nav-item ml-2">
+                        <li class="nav-link" href="{% url 'doctor_ui' %}" style="color: rgb(91, 252, 50);">Hello, Dr. {{user.doctor.name}}</li>
+                        </li>
+                        <li class="nav-item ml-2">
+                            <a class="nav-link" href="{% url 'doctor_ui' %}">Profile</a>
+                            </li>
+      
+      
+                      {% endif %}
+
+                      {% if user.is_superuser  %}
+      
+                      <li class="nav-item ml-2">
+                        <li class="nav-link" href="{% url 'admin_ui' %}" style="color: rgb(91, 252, 50);">Admin: {{user.username}}</li>
+                        </li>
+                        <li class="nav-item ml-2">
+                            <a class="nav-link" href="{% url 'admin_ui' %}">Profile</a>
+                            </li>
+      
+      
+                      {% endif %}
+      
+                      <li class="nav-item ml-2">
+      <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#logout-modal" style="color: rgb(247, 190, 188);">Log out</button>
+                        
+                      </li>
+      
+      
+      
+      
+                      <!-- Small modal -->
+      
+      <div class="modal fade" id="logout-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header"><h4>Logout <i class="fa fa-lock"></i></h4></div>
+            <div class="modal-body"><i class="fa fa-question-circle"></i><span style="color: rgb(42, 187, 6);">{{user.patient.name}}</span>, Are you sure you want to log-off?</div>
+            <div class="modal-footer"><a href="{% url 'logout' %}" class="btn btn-primary btn-block">Logout</a></div>
+          </div>
+        </div>
+      </div>
+                      
+                      {% else %}
+                      
+                      <li class="nav-item ml-2">
+                          <a class="nav-link" data-toggle="modal" data-target=".bd-example-modal-lg2">Signup</a>
+                      </li>
+                      <li class="nav-item ml-">
+                          <a class="nav-link" data-toggle="modal" data-target=".bd-example-modal-lg">Signin</a>
+                      </li>
+                      
+                      {% endif %}
+      
+                  </ul>
+              </div>
+          </nav>
+      
+
+
+
+    
+<!-- Large modal -->
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+     
+  <center>
+    <h1>Sign-In  As</h1>
+    </center>
+  <br><br>
+  
+  <center>
+  <form>
+      <div class="container mt-5 mb-5">
+   <div class="row">
+      <div class="col">
+         <a href="{% url 'sign_in_admin' %}">
+  <img  alt="admin" src="{% static 'homepage/admin.png' %}"  class="img">
+  </a>
+      </div>
+  
+      <div class="col">
+  <a href="{% url 'sign_in_doctor' %}">
+  <img  alt="doctor" src="{% static 'homepage/doctor.png' %}"  class="img">
+  </a>
+      </div>
+  
+      <div class="col">
+  <a href="{% url 'sign_in_patient' %}">
+  <img  alt="patient" src="{% static 'homepage/patient.png' %}"  class="img">
+  </a>
+      </div>
+    </div>
+    </div>
+  </form>
+  </center>
+  
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+  {% block body %}
+
+  {% endblock %}
+
+
+
+
+
+
+
+   <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   
+    <script src="https://code.jquery.com/jquery-3.4.1.js"integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+ 
+</body>
+</html> {% endcomment %}
+
+{% comment %} New Try ones over here {% endcomment %}
+
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>{% block title %}{% endblock title %} | SHDPS</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/venobox/venobox.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css' %}" rel="stylesheet">
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+  
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+
+{% block head %}
+
+{% endblock %}
+
+<script>
+{% block script %}
+
+{% endblock script %}
+</script>
+
+</head>
+
+
+
+<body>
+
+   <style>
+        {% block style %}
+
+        {% endblock style %}
+    </style>
+    <br><br>
+  <!-- ======= Top Bar ======= -->
+  <div id="topbar" class="d-none d-lg-flex align-items-center fixed-top">
+    <div class="container d-flex">
+      <div class="contact-info mr-auto">
+        <i class="icofont-envelope"></i> <a href="mailto:contact@shdps.com">contact@shdps.com</a>
+        <i class="icofont-phone"></i> 022-24124188
+        <i class="icofont-google-map"></i> Navi Mumbai, MH
+      </div>
+      <div class="social-links">
+        <a href="#" class="twitter"><i class="icofont-twitter"></i></a>
+        <a href="#" class="facebook"><i class="icofont-facebook"></i></a>
+        <a href="#" class="instagram"><i class="icofont-instagram"></i></a>
+        <a href="#" class="skype"><i class="icofont-skype"></i></a>
+        <a href="#" class="linkedin"><i class="icofont-linkedin"></i></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center">
+      <a href="{% url 'home' %}" ><img src="{% static 'img/favicon.png' %}" style="height: 70px; width: 75px;  "alt="" class=""></a>
+
+      <h1 class="logo mr-auto"><a href="{% url 'home' %}" style="padding-left: 10pt; text-decoration : none; ">SHDPS</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+
+      <nav class="nav-menu d-none d-lg-block">
+        <ul>
+          <li><a href="{% url 'home' %}" style="text-decoration : none;">Home</a></li>
+          <li><a href="#services" style="text-decoration : none;" >Services</a></li>
+          <li><a href="#departments" style="text-decoration : none;" >Departments</a></li>
+          <li><a href="#doctors" style="text-decoration : none;" >Doctors</a></li>
+          <li><a href="{% url 'about' %}" style="text-decoration : none;" >About</a></li>
+          <li>
+            <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg2" style="text-decoration : none;">Signup</a>
+        </li>
+        <li>
+            <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" style="text-decoration : none;">Signin</a>
+        </li>
+
+          
+
+          <li><a href="{% url 'contact' %}""  style="text-decoration : none;">Contact</a></li>
+
+        </ul>
+      </nav><!-- .nav-menu -->
+
+      <a href="#appointment" class="appointment-btn scrollto">Make an Appointment</a>
+
+    </div>
+  </header>
+  <!-- End Header -->
+
+                    
+          <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+            
+          <center>
+            <h1>Sign-In  As</h1>
+            </center>
+          <br><br>
+
+          <center>
+          <form>
+              <div class="container mt-5 mb-5">
+          <div class="row">
+              <div class="col">
+                <a href="{% url 'sign_in_admin' %}">
+          <img  alt="admin" src="{% static 'img/admin.png' %}"  class="img" style="height:150px">
+          </a>
+              </div>
+
+              <div class="col">
+          <a href="{% url 'sign_in_doctor' %}">
+          <img  alt="doctor" src="{% static 'img/doctor.png' %}"  class="img" style="height:150px">
+          </a>
+              </div>
+
+              <div class="col">
+          <a href="{% url 'sign_in_patient' %}">
+          <img  alt="patient" src="{% static 'img/patient.png' %}"  class="img" style="height:130px">
+          </a>
+              </div>
+            </div>
+            </div>
+          </form>
+          </center>
+
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Large modal -->
+
+          <div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+            
+          <center>
+            <h1>Sign-Up  As</h1>
+            </center>
+          <br><br>
+
+          <center>
+          <form>
+              <div class="container">
+          <div class="row">
+
+              <div class="col">
+          <a href="{% url 'signup_doctor' %}">
+          <img  alt="doctor" src="{% static 'img/doctor.png' %}"  class="img" style="height: 200px;">
+          </a>
+              </div>
+
+              <div class="col">
+          <a href="{% url 'signup_patient' %}">
+          <img  alt="patient" src="{% static 'img/patient.png' %}"  class="img" style="height: 180px;">
+          </a>
+              </div>
+          </div>
+            </div>
+          </form>
+          </center>
+
+              </div>
+            </div>
+          </div>
+
+
+{% block body %}
+
+
+{% endblock body %}
+
+
+
+
+
+
+<!-- start Footer -->
+
+  <footer id="footer">
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h3 id="foothead">SHDPS</h3>
+            <p>
+              Plot no. 2 & 3, Sec 16 <br>
+              Khanda Gaon, Nr Thana Naka,<br>
+              New Panvel - 410206<br><br>
+              <strong>Phone:</strong> 022-24124188<br>
+              <strong>Email:</strong> contact@shdps.com<br>
+            </p>
+          </div>
+
+          <div class="col-lg-5 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="index.html">Home</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="about.html">About us</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="contact.html">Contact</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="index.html">Make Appointment</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="index.html">Services</a></li>
+            </ul>
+          </div>
+
+
+          <div class="col-lg-4 col-md-6 footer-newsletter">
+           <div id="wrapper-9cd199b9cc5410cd3b1ad21cab2e54d3">
+             <h6 style="color: #fff;">Locate Us</h6>
+		<div id="map-9cd199b9cc5410cd3b1ad21cab2e54d3"></div><script>(function () {
+        var setting = {"height":200,"width":350,"zoom":17,"queryString":"AIKTC COLLEGE, Sector 16, Khanda Colony, Panvel, Navi Mumbai, Maharashtra, India","place_id":"ChIJefH7Njro5zsRbsXoUVCQsLs","satellite":false,"centerCoord":[19.00016795546809,73.10430254999999],"cid":"0xbbb0905051e8c56e","lang":"en","cityUrl":"/india/navi-mumbai-32471","cityAnchorText":"Map of Navi Mumbai, West Zone, India","id":"map-9cd199b9cc5410cd3b1ad21cab2e54d3","embed_id":"377192"};
+        var d = document;
+        var s = d.createElement('script');
+        s.src = 'https://1map.com/js/script-for-user.js?embed_id=377192';
+        s.async = true;
+        s.onload = function (e) {
+          window.OneMap.initMap(setting)
+        };
+        var to = d.getElementsByTagName('script')[0];
+        to.parentNode.insertBefore(s, to);
+      })();</script><a href="https://1map.com/map-embed">1 Map</a></div>
+          </div>
+
+          <div class="col-sm-5"></div>
+          <div class="footer-copyright text-center py-3" style="color: #fff;">© 2021 Copyright:
+            <a href="https://www.shdps.com"> www.shdps.com</a>
+          </div>
+          <div class="col-sm-6"></div>
+        </div>
+      </div>
+    </div>
+
+    
+  </footer>
+  <!-- End Footer -->
+
+
+<div id="preloader"></div>
+<a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+<!-- Vendor JS Files -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'vendor/venobox/venobox.min.js' %}"></script>
+  <script src="{% static 'vendor/waypoints/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'vendor/counterup/counterup.min.js' %}"></script>
+  <script src="{% static 'vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
