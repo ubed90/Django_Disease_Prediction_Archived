@@ -8,10 +8,10 @@ A Webapp used for predicting Disease by taking input as symptoms which works usi
 <b>After copying models path > Go to main_app > views.py > Line_16 and Paste the copied path replacing the filled one</b>
 
 ### THEN -->
-> pip install virtualenv
-> virtualenv env
-> pip install django psycopg2 scikit-learn
-> cd shdps/
-> python manage.py makemigrations
-> python manage.py migrate
-> python manage.py runserver
+> pip install virtualenv <br>
+> virtualenv env <br>
+> pip install django psycopg2 scikit-learn <br>
+> cd shdps/ <br>
+> python manage.py makemigrations <br>
+> python manage.py migrate <br>
+> python manage.py runserver <br>
