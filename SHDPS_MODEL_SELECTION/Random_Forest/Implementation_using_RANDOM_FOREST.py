@@ -74,8 +74,13 @@ print(len(symptoms))
 input_symtoms=[]
 for x in range(0,len(symptoms)):
     input_symtoms.append(0)
-for i in range(1 , len(symptoms) , 30):
-    input_symtoms[i] = 1
+# for i in range(1 , len(symptoms) , 30):
+#     input_symtoms[i] = 1
+faiyaz_symptoms = ['joint_pain' , 'vomiting' , 'fatigue' , 'yellowish_skin' , 'dark_urine' , 'loss_of_appetite' , 'abdominal_pain' , 'yellowing_of_eyes']
+for index , symptom in enumerate(symptoms):
+    for faiyaz_symptom in faiyaz_symptoms:
+        if symptom == faiyaz_symptom:
+            input_symtoms[index] = 1
 input_symtoms.count(1)
 
 
