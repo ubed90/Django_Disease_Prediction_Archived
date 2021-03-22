@@ -17,20 +17,18 @@ import pandas as pd
 import os , shutil
 import re
 from prettytable import PrettyTable
+from sklearn.naive_bayes import MultinomialNB
+from Decision_Tree.decision_tree import train_decision_tree_model
+from K_Nearest_Neighbors.knn import train_KNN_model
+from Kernel_SVM.kernel_svm import train_SVC_model
+from Logistic_Regression.logistic_regression import train_Logistic_regression_model
+from Naive_Bayes.naive_bayes import train_naive_bayes_model
+from Random_Forest.random_forest import train_random_forest_model
+
 
 def clear():
     os.system('cls')
 
-
-dirs = os.listdir('Datasets/')
-dirs = dirs[1]
-num = int(re.findall('[0-9]+' , dirs)[0])
-ORIGINAL = os.getcwd() + f'\Datasets/SHDPS_Training_{num}.csv'
-DESTINATION = os.getcwd() + f'\Datasets/SHDPS_ARCHIVE/SHDPS_Training_{num}(ARCHIVED).csv'
-# dataset = pd.read_csv(ORIGINAL , index_col='prognosis')
-headers = [*pd.read_csv(ORIGINAL, nrows=1)]
-dataset = pd.read_csv(ORIGINAL, usecols=[c for c in headers if c != 'Unnamed: 0'])
-dataset_copy = dataset.copy(deep=True)
 
 def save_on_exit(num , dataset_copy):
     if not os.path.exists(os.getcwd() + '\Datasets\SHDPS_ARCHIVE'):
@@ -44,6 +42,19 @@ def save_on_exit(num , dataset_copy):
         # clear()
         print("---------DATASET Wasn't ALTERED-----------\nThank's For Using...")
         exit()
+
+
+def train_all_ML_models(dataset_copy):
+    clear()
+    print('Processing.........\nPlease Wait.')
+    train_decision_tree_model(dataset_copy)
+    train_KNN_model(dataset_copy)
+    train_SVC_model(dataset_copy)
+    train_Logistic_regression_model(dataset_copy)
+    train_naive_bayes_model(dataset_copy)
+    train_random_forest_model(dataset_copy)
+    clear()
+    print('-----------ALL MODELS TRAINED SUCCESSFULLY---------------')
 
 
 # ### TASK -> See Symptoms Arranged ALPHABETICALLY
@@ -197,23 +208,33 @@ def add_disease():
         clear()
         print('-------Disease was DISCARDED---------')
 
-
-
-
-while True:
-    user_input = input('\t------------PROGRAM TO ADD DISEASES TO SHDPS DATASET-----------------\n  1. SEE AVAILABLE SYMPTOMS\n  2. SEARCH FROM AVAILABLE SYMPTOMS\n  3. ADD SYMPTOM\n  4. ADD DISEASE\n  5. SAVE & EXIT\n :: ')
-    if user_input == '1':
-        see_symptoms()
-    elif user_input == '2':
-        search_symptoms()
-    elif user_input == '3':
-        add_symptom()
-    elif user_input == '4':
-        add_disease()
-    elif user_input == '5':
-        save_on_exit(num=num , dataset_copy=dataset_copy)
-    else:
-        clear()
-        print('--------INVALID INPUT-----------')
         
 
+if __name__ == "__main__":
+    dirs = os.listdir('Datasets/')
+    dirs = dirs[1]
+    num = int(re.findall('[0-9]+' , dirs)[0])
+    ORIGINAL = os.getcwd() + f'\Datasets/SHDPS_Training_{num}.csv'
+    DESTINATION = os.getcwd() + f'\Datasets/SHDPS_ARCHIVE/SHDPS_Training_{num}(ARCHIVED).csv'
+    # dataset = pd.read_csv(ORIGINAL , index_col='prognosis')
+    headers = [*pd.read_csv(ORIGINAL, nrows=1)]
+    dataset = pd.read_csv(ORIGINAL, usecols=[c for c in headers if c != 'Unnamed: 0'])
+    dataset_copy = dataset.copy(deep=True)
+
+    while True:
+        user_input = input('\t------------PROGRAM TO ADD DISEASES TO SHDPS DATASET-----------------\n  1. SEE AVAILABLE SYMPTOMS\n  2. SEARCH FROM AVAILABLE SYMPTOMS\n  3. ADD SYMPTOM\n  4. ADD DISEASE\n  5. RE-TRAIN ALL ML MODELS\n  6. SAVE & EXIT\n  :: ')
+        if user_input == '1':
+            see_symptoms()
+        elif user_input == '2':
+            search_symptoms()
+        elif user_input == '3':
+            add_symptom()
+        elif user_input == '4':
+            add_disease()
+        elif user_input == '5':
+            train_all_ML_models(dataset_copy=dataset_copy)
+        elif user_input == '6':
+            save_on_exit(num=num , dataset_copy=dataset_copy)
+        else:
+            clear()
+            print('--------INVALID INPUT-----------')
