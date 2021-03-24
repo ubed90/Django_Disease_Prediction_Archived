@@ -10,6 +10,7 @@ A Webapp used for predicting Disease by taking input as symptoms which works usi
 ### THEN -->
 > pip install virtualenv <br>
 > virtualenv env <br>
+> /.env/Scripts/activate (FOR WINDOWS ONLY) <br>
 > pip install django psycopg2 scikit-learn <br>
 > cd shdps/ <br>
 > python manage.py makemigrations <br>
