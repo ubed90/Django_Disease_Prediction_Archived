@@ -16,11 +16,11 @@ from chats.models import Chat,Feedback
 
 # Loading DataSet
 encoder = LabelEncoder()
-dirs = os.listdir('E:\PROGRAMMING\Projects\Django_Disease_Prediction_System\SHDPS_MODEL_SELECTION\Datasets')
+dirs = os.listdir('E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Datasets')
 dirs = dirs[2]
 num = int(re.findall('[0-9]+' , dirs)[0])
-headers = [*pd.read_csv(f'E:\PROGRAMMING\Projects\Django_Disease_Prediction_System\SHDPS_MODEL_SELECTION\Datasets\SHDPS_Training_{num}.csv', nrows=1)]
-dataset = pd.read_csv(f'E:\PROGRAMMING\Projects\Django_Disease_Prediction_System\SHDPS_MODEL_SELECTION\Datasets\SHDPS_Training_{num}.csv', usecols=[c for c in headers if c != 'Unnamed: 0'])
+headers = [*pd.read_csv(f'E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Datasets\SHDPS_Training_{num}.csv', nrows=1)]
+dataset = pd.read_csv(f'E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Datasets\SHDPS_Training_{num}.csv', usecols=[c for c in headers if c != 'Unnamed: 0'])
 
 #loading model
 # model = jb.load(r'E:\PROGRAMMING\Projects\Django_Disease_Prediction_System\shdps\ModelAI\model')
@@ -38,13 +38,13 @@ def get_disease(model , user_symptoms , predicted , Y_train , Y):
 
 def get_disease_with_max_accuracy(user_symptoms , Y_train , Y):
    disease_and_Cs = []
-   dt_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction_System\SHDPS_MODEL_SELECTION\Decision_Tree\Decision_Tree_Model.sav')
-   knn_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction_System\SHDPS_MODEL_SELECTION\K_Nearest_Neighbors\KNN_Model.sav')
-   svm_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction_System\SHDPS_MODEL_SELECTION\Kernel_SVM\Kernel_SVM_Model.sav')
-   lr_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction_System\SHDPS_MODEL_SELECTION\Logistic_Regression\Logistic_Regression_Model.sav')
-   gaussian_NB_model = jb.load(r'E:\PROGRAMMING\Projects\Django_Disease_Prediction_System\SHDPS_MODEL_SELECTION\Naive_Bayes\Gaussian_Bayes_Model.sav')
-   multinomial_NB_model = jb.load(r'E:\PROGRAMMING\Projects\Django_Disease_Prediction_System\SHDPS_MODEL_SELECTION\Naive_Bayes\Multinomial_Bayes_Model.sav')
-   rf_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction_System\SHDPS_MODEL_SELECTION\Random_Forest\Random_Forest_Model.sav')
+   dt_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Decision_Tree\Decision_Tree_Model.sav')
+   knn_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\K_Nearest_Neighbors\KNN_Model.sav')
+   svm_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Kernel_SVM\Kernel_SVM_Model.sav')
+   lr_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Logistic_Regression\Logistic_Regression_Model.sav')
+   gaussian_NB_model = jb.load(r'E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Naive_Bayes\Gaussian_Bayes_Model.sav')
+   multinomial_NB_model = jb.load(r'E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Naive_Bayes\Multinomial_Bayes_Model.sav')
+   rf_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Random_Forest\Random_Forest_Model.sav')
 
    dt_model_predicted = dt_model.predict(user_symptoms)
    dt_model_predicted_disease , dt_model_predicted_CS = get_disease(dt_model , user_symptoms , dt_model_predicted , Y_train , Y)

@@ -32,7 +32,7 @@ def clear():
 
 def save_on_exit(num , dataset_copy):
     if not os.path.exists(os.getcwd() + '\Datasets\SHDPS_ARCHIVE'):
-        os.mkdir(os.getcwd() + '\Datasets/SHDPS_ARCHIVE')
+        os.mkdir(os.getcwd() + '\Datasets\SHDPS_ARCHIVE')
     if not dataset.equals(dataset_copy):
         shutil.move(ORIGINAL , DESTINATION)
         dataset_copy.to_csv(f'Datasets/SHDPS_Training_{num+1}.csv')
@@ -214,8 +214,8 @@ if __name__ == "__main__":
     dirs = os.listdir('Datasets/')
     dirs = dirs[1]
     num = int(re.findall('[0-9]+' , dirs)[0])
-    ORIGINAL = os.getcwd() + f'\Datasets/SHDPS_Training_{num}.csv'
-    DESTINATION = os.getcwd() + f'\Datasets/SHDPS_ARCHIVE/SHDPS_Training_{num}(ARCHIVED).csv'
+    ORIGINAL = os.getcwd() + f'\Datasets\SHDPS_Training_{num}.csv'
+    DESTINATION = os.getcwd() + f'\Datasets\SHDPS_ARCHIVE/SHDPS_Training_{num}(ARCHIVED).csv'
     # dataset = pd.read_csv(ORIGINAL , index_col='prognosis')
     headers = [*pd.read_csv(ORIGINAL, nrows=1)]
     dataset = pd.read_csv(ORIGINAL, usecols=[c for c in headers if c != 'Unnamed: 0'])
