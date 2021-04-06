@@ -16,11 +16,11 @@ from chats.models import Chat,Feedback
 
 # Loading DataSet
 encoder = LabelEncoder()
-dirs = os.listdir('E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Datasets')
+dirs = os.listdir('E:\PROGRAMMING\Projects\Django_Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Datasets')
 dirs = dirs[2]
 num = int(re.findall('[0-9]+' , dirs)[0])
-headers = [*pd.read_csv(f'E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Datasets\SHDPS_Training_{num}.csv', nrows=1)]
-dataset = pd.read_csv(f'E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Datasets\SHDPS_Training_{num}.csv', usecols=[c for c in headers if c != 'Unnamed: 0'])
+headers = [*pd.read_csv(f'E:\PROGRAMMING\Projects\Django_Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Datasets\SHDPS_Training_{num}.csv', nrows=1)]
+dataset = pd.read_csv(f'E:\PROGRAMMING\Projects\Django_Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Datasets\SHDPS_Training_{num}.csv', usecols=[c for c in headers if c != 'Unnamed: 0'])
 
 #loading model
 # model = jb.load(r'E:\PROGRAMMING\Projects\Django_Disease_Prediction_System\shdps\ModelAI\model')
@@ -38,13 +38,13 @@ def get_disease(model , user_symptoms , predicted , Y_train , Y):
 
 def get_disease_with_max_accuracy(user_symptoms , Y_train , Y):
    disease_and_Cs = []
-   dt_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Decision_Tree\Decision_Tree_Model.sav')
-   knn_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\K_Nearest_Neighbors\KNN_Model.sav')
-   svm_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Kernel_SVM\Kernel_SVM_Model.sav')
-   lr_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Logistic_Regression\Logistic_Regression_Model.sav')
-   gaussian_NB_model = jb.load(r'E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Naive_Bayes\Gaussian_Bayes_Model.sav')
-   multinomial_NB_model = jb.load(r'E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Naive_Bayes\Multinomial_Bayes_Model.sav')
-   rf_model = jb.load('E:\PROGRAMMING\Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Random_Forest\Random_Forest_Model.sav')
+   dt_model = jb.load('E:\PROGRAMMING\Projects\Django_Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Decision_Tree\Decision_Tree_Model.sav')
+   knn_model = jb.load('E:\PROGRAMMING\Projects\Django_Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\K_Nearest_Neighbors\KNN_Model.sav')
+   svm_model = jb.load('E:\PROGRAMMING\Projects\Django_Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Kernel_SVM\Kernel_SVM_Model.sav')
+   lr_model = jb.load('E:\PROGRAMMING\Projects\Django_Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Logistic_Regression\Logistic_Regression_Model.sav')
+   gaussian_NB_model = jb.load(r'E:\PROGRAMMING\Projects\Django_Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Naive_Bayes\Gaussian_Bayes_Model.sav')
+   multinomial_NB_model = jb.load(r'E:\PROGRAMMING\Projects\Django_Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Naive_Bayes\Multinomial_Bayes_Model.sav')
+   rf_model = jb.load('E:\PROGRAMMING\Projects\Django_Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Random_Forest\Random_Forest_Model.sav')
 
    dt_model_predicted = dt_model.predict(user_symptoms)
    dt_model_predicted_disease , dt_model_predicted_CS = get_disease(dt_model , user_symptoms , dt_model_predicted , Y_train , Y)
@@ -81,22 +81,51 @@ def get_disease_with_max_accuracy(user_symptoms , Y_train , Y):
 
 
 def home(request):
-
-  if request.method == 'GET':
-        
-      if request.user.is_authenticated:
-        return render(request,'index.html')
-
-      else :
-        return render(request,'index.html')
+   puser = None
+   duser = None
+   r = None
+   try:
+      patientusername = request.session['patientusername']
+      puser = User.objects.get(username=patientusername)
+      doctorusername = request.session['doctorusername']
+      duser = User.objects.get(username=doctorusername)
+      r = rating_review.objects.filter(doctor=duser.doctor)
+   except:
+      pass
+   print(duser , puser)
+   return render(request, 'index.html' , {'puser' : puser , 'duser' : duser , 'rate' : r})
 
 
 def contact(request):
-   return render(request, 'contact.html')
+   puser = None
+   duser = None
+   r = None
+   try:
+      patientusername = request.session['patientusername']
+      puser = User.objects.get(username=patientusername)
+      doctorusername = request.session['doctorusername']
+      duser = User.objects.get(username=doctorusername)
+      r = rating_review.objects.filter(doctor=duser.doctor)
+   except:
+      pass
+   print(duser , puser)
+   return render(request, 'contact.html' , {'puser' : puser , 'duser' : duser , 'rate' : r})
 
 
 def about(request):
-   return render(request, 'about.html')
+   puser = None
+   duser = None
+   r = None
+   try:
+      patientusername = request.session['patientusername']
+      puser = User.objects.get(username=patientusername)
+      doctorusername = request.session['doctorusername']
+      duser = User.objects.get(username=doctorusername)
+      r = rating_review.objects.filter(doctor=duser.doctor)
+   except:
+      pass
+   print(duser , puser)
+   return render(request, 'about.html' , {'puser' : puser , 'duser' : duser , 'rate' : r})
    
 
        
@@ -161,6 +190,8 @@ def pviewprofile(request, patientusername):
 
 
 def checkdisease(request):
+  patientusername = request.session['patientusername']
+  puser = User.objects.get(username=patientusername)
   Y = dataset.iloc[ : , 0].values
   Y_train = encoder.fit_transform(Y)
 
@@ -173,7 +204,7 @@ def checkdisease(request):
 
   if request.method == 'GET':
     
-     return render(request,'patient/checkdisease/checkdisease.html', {"list2":alphabaticsymptomslist})
+     return render(request,'patient/checkdisease/checkdisease.html', {"list2":alphabaticsymptomslist , 'puser':puser})
 
 
 
@@ -290,8 +321,6 @@ def checkdisease(request):
 
         request.session['doctortype'] = consultdoctor 
 
-        patientusername = request.session['patientusername']
-        puser = User.objects.get(username=patientusername)
      
 
         #saving to database.....................
@@ -336,7 +365,7 @@ def pconsultation_history(request):
       consultationnew = consultation.objects.filter(patient = patient_obj)
       
     
-      return render(request,'patient/consultation_history/consultation_history.html',{"consultation":consultationnew})
+      return render(request,'patient/consultation_history/consultation_history.html',{"consultation":consultationnew , 'puser' : puser})
 
 
 def dconsultation_history(request):
@@ -360,7 +389,7 @@ def doctor_ui(request):
 
       doctorid = request.session['doctorusername']
       duser = User.objects.get(username=doctorid)
-
+      print(duser)
     
       return render(request,'doctor/doctor_ui/profile.html',{"duser":duser})
 
@@ -372,12 +401,17 @@ def doctor_ui(request):
 def dviewprofile(request, doctorusername):
 
     if request.method == 'GET':
-
-         
+         puser = None
+         try:
+            patientusername = request.session['patientusername']
+            puser = User.objects.get(username=patientusername)
+         except:
+            pass
          duser = User.objects.get(username=doctorusername)
+         print(duser , puser)
          r = rating_review.objects.filter(doctor=duser.doctor)
        
-         return render(request,'doctor/view_profile/view_profile.html', {"duser":duser, "rate":r} )
+         return render(request,'doctor/view_profile/view_profile.html', {"duser":duser, "puser" : puser , "rate":r} )
 
 
 
@@ -392,14 +426,15 @@ def  consult_a_doctor(request):
 
     if request.method == 'GET':
 
-        
+        patientusername = request.session['patientusername']
+        puser = User.objects.get(username=patientusername)
         doctortype = request.session['doctortype']
         print(doctortype)
         dobj = doctor.objects.all()
         #dobj = doctor.objects.filter(specialization=doctortype)
 
 
-        return render(request,'patient/consult_a_doctor/consult_a_doctor.html',{"dobj":dobj})
+        return render(request,'patient/consult_a_doctor/consult_a_doctor.html',{"dobj":dobj , 'puser' : puser})
 
    
 
@@ -441,12 +476,16 @@ def  make_consultation(request, doctorusername):
 def  consultationview(request,consultation_id):
    
     if request.method == 'GET':
-
-   
+      puser = None
+      try:
+         patientusername = request.session['patientusername']
+         puser = User.objects.get(username=patientusername)
+      except:
+         pass
       request.session['consultation_id'] = consultation_id
       consultation_obj = consultation.objects.get(id=consultation_id)
 
-      return render(request,'consultation/consultation.html', {"consultation":consultation_obj })
+      return render(request,'consultation/consultation.html', {"consultation":consultation_obj , 'puser' : puser})
 
    #  if request.method == 'POST':
    #    return render(request,'consultation/consultation.html' )

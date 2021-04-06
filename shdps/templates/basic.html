@@ -339,16 +339,48 @@
           <li><a href="#departments" style="text-decoration : none;" >Departments</a></li>
           <li><a href="#doctors" style="text-decoration : none;" >Doctors</a></li>
           <li><a href="{% url 'about' %}" style="text-decoration : none;" >About</a></li>
-          <li>
-            <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg2" style="text-decoration : none;">Signup</a>
-        </li>
-        <li>
-            <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" style="text-decoration : none;">Signin</a>
-        </li>
+          {% if user.is_authenticated %}
+            {% if user.patient %}
+              <li>
+                <button type="button" class="btn btn-outline-light"><a href="{% if puser == None %}#{% else %}{% url 'pviewprofile' puser.username %}{% endif %}" style="text-decoration : none; padding : 0.5px;" >{{user.patient.name}}</a></button>
+                {% comment %} <a href="{% url 'pviewprofile' puser.username %}" class="btn btn-primary">{{user.patient.name}}</a> {% endcomment %}
+                {% comment %} <button type="button" class="btn btn-outline-primary">{{user.patient.name}}</button> {% endcomment %}
+              </li>
+              <li>
+                <a href="{% url 'logout' %}" class="btn btn-danger active" role="button" data-bs-toggle="button" style = 'padding : 7px;' aria-pressed="true">Logout</a>
+                {% comment %} <button type="button" class="btn btn-outline-danger"><a href="{% url 'logout' %}" style="text-decoration : none;" >Logout</a></button> {% endcomment %}
+              </li>
+            {% elif user.doctor %}
+              <li>
+                <button type="button" class="btn btn-outline-light"><a href="{% if duser == None %}#{% else %}{% url 'dviewprofile' duser.username %}{% endif %}" style="text-decoration : none; padding : 0.5px;" >{{user.doctor.name}}</a></button>
+                {% comment %} <a href="{% url 'pviewprofile' puser.username %}" class="btn btn-primary">{{user.doctor.name}}</a> {% endcomment %}
+                {% comment %} <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg2" style="text-decoration : none;">{{user.doctor.name}}</a> {% endcomment %}
+              </li>
+              <li>
+                <a href="{% url 'logout' %}" class="btn btn-danger active" role="button" data-bs-toggle="button" style = 'padding : 7px;' aria-pressed="true">Logout</a>
+              </li>
+            {% elif user.is_superuser %}
+              <li>
+                <button type="button" class="btn btn-outline-light"><a href="#" style="text-decoration : none; padding : 0.5px;" >ADMIN ||  {{user.username.upper}}</a></button>
+              </li>
+              <li>
+                <a href="{% url 'logout' %}" class="btn btn-danger active" role="button" data-bs-toggle="button" style = 'padding : 7px;' aria-pressed="true">Logout</a>
+              </li>
+            {% endif %}
+            
+          {% else %}  
+            <li>
+              <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg2" style="text-decoration : none;">Signup</a>
+            </li>
+            <li>
+              <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" style="text-decoration : none;">Signin</a>
+            </li>
+          {% endif %}
+          
 
           
 
-          <li><a href="{% url 'contact' %}""  style="text-decoration : none;">Contact</a></li>
+          <li><a href="{% url 'contact' %}"  style="text-decoration : none;">Contact</a></li>
 
         </ul>
       </nav><!-- .nav-menu -->
