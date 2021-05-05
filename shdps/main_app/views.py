@@ -17,7 +17,7 @@ from chats.models import Chat,Feedback
 # Loading DataSet
 encoder = LabelEncoder()
 dirs = os.listdir('E:\PROGRAMMING\Projects\Django_Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Datasets')
-dirs = dirs[2]
+dirs = dirs[1]
 num = int(re.findall('[0-9]+' , dirs)[0])
 headers = [*pd.read_csv(f'E:\PROGRAMMING\Projects\Django_Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Datasets\SHDPS_Training_{num}.csv', nrows=1)]
 dataset = pd.read_csv(f'E:\PROGRAMMING\Projects\Django_Projects\Django_Disease_Prediction\SHDPS_MODEL_SELECTION\Datasets\SHDPS_Training_{num}.csv', usecols=[c for c in headers if c != 'Unnamed: 0'])
